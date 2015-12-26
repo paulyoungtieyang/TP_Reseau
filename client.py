@@ -18,8 +18,11 @@ class client:
 		commande = "Menu"+str(n)
 		return commande
 		
-		
-num=sys.argv[1]
+
+if len(sys.argv)<2:
+        print "Vous devez donner un numero au client"
+        sys.exit(-1)		
+num=sys.argv[1] #Donner un numero au client au moment de sa connexion au serveur
 client1=client(10,num)		
 t=0
 c=client1.commande()

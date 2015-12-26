@@ -6,7 +6,22 @@ import sys
 
 
 
+class livreur:
+	
+	def __init__(self,num):
+		self.num=num #Chaque livreur a un numero
+		self.occupe=False #Un livreur peut etre occupe ou non par une livraison
 
+	def __repr__(self):
+		if self.occupe==False:
+			return "Livreur"+str(self.num)+" : disponible"
+		else :
+			return "Livreur"+str(self.num)+" : occupe"
+
+
+restaurant = []
+for i in xrange(1):
+	restaurant.append(livreur(i))
 
 
 
