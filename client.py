@@ -22,7 +22,8 @@ class client:
 if len(sys.argv)<2:
         print "Vous devez donner un numero au client"
         sys.exit(-1)		
-num=sys.argv[1] #Donner un numero au client au moment de sa connexion au serveur
+        
+num=sys.argv[1] #Il faut donner un numero au client au moment de sa connexion au serveur
 client1=client(10,num)		
 t=0
 c=client1.commande()
@@ -39,7 +40,7 @@ try:
 		data = s.recv(255)
 		
 		t+=1
-  		if t>client1.distance*10000 : break
+  		if t>client1.distance*20000 : break
 
 
 except socket.error, e:

@@ -14,16 +14,17 @@ class livreur:
 
 	def __repr__(self):
 		if self.occupe==False:
-			return "Livreur"+str(self.num)+" : disponible"
+			return "Livreur"+str(self.num)+" : disponible\n"
 		else :
-			return "Livreur"+str(self.num)+" : occupe"
+			return "Livreur"+str(self.num)+" : occupe\n"
 
 
 restaurant = []
-for i in xrange(1):
-	restaurant.append(livreur(i))
+for i in xrange(10):
+	restaurant.append(livreur(i+1))
 
 
+restaurant[0].occupe=True
 
 
 
@@ -35,6 +36,15 @@ listeClient=[]
 def f_thread(clisock):
     loopEnd = True
     t=0
+    #On cherche le premier livreur disponible:
+    num_livreur=0 
+    while restaurant[num_livreur].occupe==True:
+		num_livreur +=1
+		
+    restaurant[num_livreur].occupe=True
+    
+       
+	
   
     while loopEnd:
         data = clisock.recv(2048)
@@ -47,7 +57,8 @@ def f_thread(clisock):
 	if not data:
 	   clisock.shutdown(0)
            listeClient.remove(clisock)
-	   print "Le client"+num+" a recu sa commande"
+	   print "Le client"+num+" a ete livre par le livreur"+str(restaurant[num_livreur].num)
+	   restaurant[num_livreur].occupe=False
 	   loopEnd = False
 
 	
