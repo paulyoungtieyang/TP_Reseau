@@ -12,9 +12,10 @@ class fenetre:
 
         #separation de la fenetre en panneaux 
         panneauTot = PanedWindow(self.fen,orient=HORIZONTAL,height=750,width=1000)
-        pDroite = PanedWindow(self.fen,orient=VERTICAL,height=750,width=400,bg='pink')
         pGauche = PanedWindow(self.fen,orient=VERTICAL,height=750,width=500,bg='white')
-        labelpDroite = Label(pDroite,text="Commandes",height=2,width=55,bg='#CAAD73')
+        self.pDroite = PanedWindow(self.fen,orient=VERTICAL,height=750,width=400,bg='white')
+        
+        labelpDroite = Label(self.pDroite,text="Commandes",height=2,width=55,bg='#CAAD73')
         labelpDroite.pack()
         
         
@@ -57,24 +58,34 @@ class fenetre:
         pGauche1.add(self.livreur5)
         
         #Ajout de la liste client a gauche : a relier a la partie reseau (utiliser la liste de client reseau pour remplir la liste)
-        list = Listbox(pDroite)
-        sbar = Scrollbar(pDroite)
-        sbar.config(command=list.yview)
-        list.config(yscrollcommand=sbar.set)
+        #self.liste = Listbox(pDroite)
+        sbar = Scrollbar(self.pDroite)
+        #sbar.config(command=self.liste.yview)
+        #self.liste.config(yscrollcommand=sbar.set)
         sbar.pack(side=RIGHT, fill=Y)
-        for i in range(10):
-            list.insert(i, "Client-" + str(i))
-        list.pack(side=LEFT, expand=YES, fill=BOTH)
-        print (list)
+        #for i in range(10):
+        #    self.liste.insert(i, "Client-" + str(i))
+        #self.liste.pack(side=LEFT, expand=YES, fill=BOTH)
+        
 
         
         #pDroite.add(labelpDroite)
-        panneauTot.add(pDroite)
         panneauTot.add(pGauche)
+        panneauTot.add(self.pDroite)
+        
 
         panneauTot.pack()
-        self.fen.mainloop()
+        #self.fen.mainloop()
+        self.fen.update_idletasks()
+        self.fen.update()
         
+        
+    def ajoutClient(self,num,statut):
+		label = Label(self.pDroite, text="CLient "+str(num)+": "+statut, bg="pink")
+		label.pack()		
+		self.fen.update_idletasks()
+		self.fen.update()
+		
     def testBouton(self):
         print ("coucou")
 
@@ -136,6 +147,8 @@ class fenetre:
 
 
 
-fen = fenetre()
+#f= fenetre()
+#f.fen.update_idletasks()
+#f.fen.update()
 
 #fen.run()

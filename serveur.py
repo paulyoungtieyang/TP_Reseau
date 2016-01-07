@@ -3,7 +3,7 @@ import socket
 import threading
 import time
 import sys
-
+import Interface
 
 
 class livreur:
@@ -61,7 +61,9 @@ def f_thread(clisock):
 	   restaurant[num_livreur].occupe=False
 	   loopEnd = False
 
-	
+def f_thread_GUI():
+	global f
+	f=Interface.fenetre()	
 	
 
 
@@ -69,6 +71,8 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.bind(('',8001))
 sock.listen(5)
 while True:
+	t1=threading.Thread(target=f_thread_GUI)
+	t1.start()
 	clisock, addr = sock.accept()
 	listeClient.append(clisock)
 	print "Un client a passe commande"
