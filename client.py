@@ -6,6 +6,7 @@ import signal
 import random
 
 
+
 stopLoop = True
 
 class client:
@@ -36,11 +37,13 @@ try:
 	while stopLoop:
   		msg ="client"+str(client1.num)+" en attente pour un "+c
   		s.send(msg)
-
 		data = s.recv(255)
-		
 		t+=1
-  		if t>client1.distance*20000 : break
+		print data
+		if data=="end":
+			stopLoop=False
+		#print t
+  		#if t>client1.distance*1000 : break
 
 
 except socket.error, e:
