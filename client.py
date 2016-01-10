@@ -6,7 +6,6 @@ import signal
 import random
 
 
-
 stopLoop = True
 
 class client:
@@ -24,7 +23,8 @@ if len(sys.argv)<2:
         print "Vous devez donner un numero au client"
         sys.exit(-1)		
         
-num=sys.argv[1] #Il faut donner un numero au client au moment de sa connexion au serveur
+num=sys.argv[2] #Il faut donner un numero au client au moment de sa connexion au serveur
+typ=sys.argv[1]
 client1=client(10,num)		
 t=0
 c=client1.commande()
@@ -37,19 +37,20 @@ try:
 	while stopLoop:
   		msg ="client"+str(client1.num)+" en attente pour un "+c
   		s.send(msg)
+ 
+
 		data = s.recv(255)
+		
 		t+=1
-		print data
-		if data=="end":
-			stopLoop=False
-		#print t
-  		#if t>client1.distance*1000 : break
+  		#if t>client1.distance*20000 : break
+  		if data=="Livraison":
+  			break
 
 
 except socket.error, e:
     	print "erreur dans l'appel a une methode de la classe socket: %s" % e
     	sys.exit(1)
 finally:
-	s.shutdown(1)
+	s.shutdown(0)
 	s.close()
 print "Le client a recu sa commande"

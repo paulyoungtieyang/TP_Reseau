@@ -3,15 +3,8 @@ import socket
 import threading
 import time
 import sys
-import Interface
 
 
-
-
-
-#############################################################################
-#								CLASSE LIVREUR								#
-#############################################################################
 
 class livreur:
 	
@@ -25,13 +18,22 @@ class livreur:
 		else :
 			return "Livreur"+str(self.num)+" : occupe\n"
 
+class commande:
+	
+	def __init__(self,num):
+		self.num=num #Chaque commande a un numero
+		self.livre=False #Etat de la commande
+			
+
 
 restaurant = []
-for i in xrange(5):
+Cliste=[]
+for i in xrange(10):
 	restaurant.append(livreur(i+1))
 
 
-restaurant[0].occupe=True #Pour tester si ca marche de prendre le 1er livreur dispo
+restaurant[0].occupe=True
+
 
 
 
@@ -43,47 +45,58 @@ listeClient=[]
 def f_thread(clisock):
     loopEnd = True
     t=0
-    time=0
     #On cherche le premier livreur disponible:
     num_livreur=0 
     while restaurant[num_livreur].occupe==True:
 		num_livreur +=1
 		
-    restaurant[num_livreur].occupe=True  
+    restaurant[num_livreur].occupe=True
+    
+       
+	
   
     while loopEnd:
-		data = clisock.recv(2048)
-		if t==0:
-			print data
-			print "ok3"
-			num = data[6]
-			num=len(listeClient)
-			f.ajoutClient(num, "en attente")
-		clisock.send(data)
-		t+=1
-		
-		if not data or time>50000:
-			clisock.send("end")
-			clisock.shutdown(0)
-			listeClient.remove(clisock)
-			print "Le client"+str(num)+" a ete livre par le livreur"+str(restaurant[num_livreur].num)
-			restaurant[num_livreur].occupe=False
-			loopEnd = False
-		time+=1
-		print time
-	
-def f_thread_GUI():
-	global f
-	f=Interface.fenetre()
+        data = clisock.recv(2048)
 
-		
+        if data=='' :
+        	clisock.shutdown(0)
+        	listeClient.remove(clisock)
+        	print "Le client"+num+" a ete livre par le livreur"+str(restaurant[num_livreur].num)
+        	restaurant[num_livreur].occupe=False
+  
+        	loopEnd = False
+
+        elif data[0]=="c":
+        	if t==0:
+        		print data
+        		print " Traitement de la commande en cours"
+        		num = data[6]
+        		c=commande(num)
+        		Cliste.append(c)
+
+        	clisock.send(data)
+        	
+        	if restaurant[0].occupe==False:
+        		clisock.send("Livraison")
+        	t+=1
+   
+
+        elif data[0]=="l":
+        	if t==0:
+				print data
+				print "Envoie de la commande au livreur"
+				num = data[8]
+				restaurant[0].occupe=False
+        	clisock.send(data)
+        	t+=1	
+        	if t>100000:
+        		clisock.send("Fin")
+
+
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.bind(('',8001))
 sock.listen(5)
-
 while True:
-	t1=threading.Thread(target=f_thread_GUI)
-	t1.start()
 	clisock, addr = sock.accept()
 	listeClient.append(clisock)
 	print "Un client a passe commande"
