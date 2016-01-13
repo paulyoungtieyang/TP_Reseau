@@ -17,6 +17,7 @@ class livreur:
 	
 	def __init__(self,num):
 		self.num=num #Chaque livreur a un numero
+		self.nom= "Livreur " + str(num)
 		self.occupe=False #Un livreur peut etre occupe ou non par une livraison
 
 	def __repr__(self):
@@ -49,7 +50,8 @@ def f_thread(clisock):
     while restaurant[num_livreur].occupe==True:
 		num_livreur +=1
 		
-    restaurant[num_livreur].occupe=True  
+    restaurant[num_livreur].occupe=True 
+    f.actionLivreur(restaurant[num_livreur].nom) 
   
     while loopEnd:
 		data = clisock.recv(2048)
@@ -70,7 +72,7 @@ def f_thread(clisock):
 			restaurant[num_livreur].occupe=False
 			loopEnd = False
 		time+=1
-		print time
+		#print time
 	
 def f_thread_GUI():
 	global f

@@ -47,10 +47,15 @@ class fenetre:
         self.var_livreur3= IntVar()
         self.var_livreur3.set(0)
         self.livreur3 = Checkbutton(self.fen,bg='white', text="Livreur 3",command =self.actionCheckbutton3, variable=self.var_livreur3, height=4)
-
-        self.livreur4 = Label(self.fen,text="Livreur 4",height = 4,bg='white')
-        self.livreur5 = Label(self.fen,text="Livreur 5",height = 3,bg='white')
-    
+        self.var_livreur4= StringVar()
+        self.livreur4 = Label(self.fen,textvariable=self.var_livreur4,height = 4,bg='white')
+        self.var_livreur4.set("Livreur 2")
+        
+        self.var_livreur5= StringVar()
+        self.livreur5 = Label(self.fen,textvariable=self.var_livreur5,height = 3,bg='white')
+        self.var_livreur5.set("Livreur 3")
+        self.listeLivreur = [self.livreur4 ,self.livreur5]
+        
         pGauche1.add(self.livreur1)
         pGauche1.add(self.livreur2)
         pGauche1.add(self.livreur3)
@@ -108,6 +113,17 @@ class fenetre:
             self.livreur3.configure(bg='red')
         else :
             self.livreur3.configure(bg='white')
+            
+    def actionLivreur(self,slivreur):
+		print "je vais dans la methode action livreur"
+		for i in xrange(len(self.listeLivreur)):
+			print slivreur+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+			#if self.listeLivreur[i]==slivreur:
+				#self.listeLivreur[i].configure(bg="red")
+			if slivreur=="Livreur 2":
+				self.livreur4.configure(bg="red")
+		self.fen.update_idletasks()
+		self.fen.update()
             
 """
     def actionCheckbutton4(self):
