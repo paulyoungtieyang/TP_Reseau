@@ -30,11 +30,12 @@ class livreur:
 restaurant = []
 for i in xrange(5):
 	restaurant.append(livreur(i+1))
+	
 
 
 restaurant[0].occupe=True #Pour tester si ca marche de prendre le 1er livreur dispo
 
-
+restaurant[2].occupe=True
 
 #############################################################################
 #								PARTIE SERVEUR								#
@@ -51,7 +52,9 @@ def f_thread(clisock):
 		num_livreur +=1
 		
     restaurant[num_livreur].occupe=True 
-    f.actionLivreur(restaurant[num_livreur].nom) 
+    print restaurant[num_livreur], "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    
+    f.actionLivreur(restaurant[num_livreur]) 
   
     while loopEnd:
 		data = clisock.recv(2048)
@@ -64,12 +67,13 @@ def f_thread(clisock):
 		clisock.send(data)
 		t+=1
 		
-		if not data or time>50000:
+		if not data or time>500000:
 			clisock.send("end")
 			clisock.shutdown(0)
 			listeClient.remove(clisock)
 			print "Le client"+str(num)+" a ete livre par le livreur"+str(restaurant[num_livreur].num)
 			restaurant[num_livreur].occupe=False
+			f.actionLivreur(restaurant[num_livreur]) 
 			loopEnd = False
 		time+=1
 		#print time
@@ -77,7 +81,8 @@ def f_thread(clisock):
 def f_thread_GUI():
 	global f
 	f=Interface.fenetre()
-
+	for i in xrange(5):
+		f.actionLivreur(restaurant[i])
 		
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.bind(('',8001))
@@ -86,6 +91,8 @@ sock.listen(5)
 while True:
 	t1=threading.Thread(target=f_thread_GUI)
 	t1.start()
+
+	
 	clisock, addr = sock.accept()
 	listeClient.append(clisock)
 	print "Un client a passe commande"

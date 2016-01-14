@@ -39,7 +39,7 @@ try:
   		s.send(msg)
 		data = s.recv(255)
 		t+=1
-		print data
+		#print data
 		if data=="end":
 			stopLoop=False
 		#print t

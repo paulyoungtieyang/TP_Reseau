@@ -35,26 +35,28 @@ class fenetre:
         pGauche2.add(bouton2)
 
         #Ajout des livreurs a droite de l'interface (3 sous forme de checkButton et 2 sous forme de label a nous de choisir ce qui est mieux)
-        self.var_livreur1= IntVar()
-        self.var_livreur1.set(0)
-        self.livreur1 = Checkbutton(self.fen,bg='white', text="Livreur 1",command =self.actionCheckbutton1, variable=self.var_livreur1, height=4)
-
         
-        self.var_livreur2= IntVar()
-        self.var_livreur2.set(0)
-        self.livreur2 = Checkbutton(self.fen,bg='white', text="Livreur 2",command =self.actionCheckbutton2, variable=self.var_livreur2, height=4)
-
-        self.var_livreur3= IntVar()
-        self.var_livreur3.set(0)
-        self.livreur3 = Checkbutton(self.fen,bg='white', text="Livreur 3",command =self.actionCheckbutton3, variable=self.var_livreur3, height=4)
+        self.var_livreur1= StringVar()
+        self.livreur1 = Label(self.fen,textvariable=self.var_livreur1,height = 3,bg='white')
+        self.var_livreur1.set("Livreur 1")
+        
+        self.var_livreur2= StringVar()
+        self.livreur2 = Label(self.fen,textvariable=self.var_livreur2,height = 3,bg='white')
+        self.var_livreur2.set("Livreur 2")
+        
+        self.var_livreur3= StringVar()
+        self.livreur3 = Label(self.fen,textvariable=self.var_livreur3,height = 3,bg='white')
+        self.var_livreur3.set("Livreur 3")
+        
         self.var_livreur4= StringVar()
         self.livreur4 = Label(self.fen,textvariable=self.var_livreur4,height = 4,bg='white')
-        self.var_livreur4.set("Livreur 2")
+        self.var_livreur4.set("Livreur 4")
         
         self.var_livreur5= StringVar()
         self.livreur5 = Label(self.fen,textvariable=self.var_livreur5,height = 3,bg='white')
-        self.var_livreur5.set("Livreur 3")
-        self.listeLivreur = [self.livreur4 ,self.livreur5]
+        self.var_livreur5.set("Livreur 5")
+        self.listeLivreurVar = [self.var_livreur1,self.var_livreur2,self.var_livreur3,self.var_livreur4 ,self.var_livreur5]
+        self.listeLivreur = [self.livreur1,self.livreur2,self.livreur3,self.livreur4 ,self.livreur5]
         
         pGauche1.add(self.livreur1)
         pGauche1.add(self.livreur2)
@@ -74,7 +76,7 @@ class fenetre:
         
 
         
-        #pDroite.add(labelpDroite)
+
         panneauTot.add(pGauche)
         panneauTot.add(self.pDroite)
         
@@ -86,7 +88,7 @@ class fenetre:
         
         
     def ajoutClient(self,num,statut):
-		label = Label(self.pDroite, text="CLient "+str(num)+": "+statut, bg="pink")
+		label = Label(self.pDroite, text="Client "+str(num)+": "+statut, bg="pink")
 		label.pack()		
 		self.fen.update_idletasks()
 		self.fen.update()
@@ -95,7 +97,6 @@ class fenetre:
         print ("coucou")
 
 
-#Changement d'etat quand on clique sur les checkButton
     def actionCheckbutton1(self):
         if self.var_livreur1.get() == 1:
             self.livreur1.configure(bg='red')
@@ -107,25 +108,31 @@ class fenetre:
             self.livreur2.configure(bg='red')
         else :
             self.livreur2.configure(bg='white')
-
-    def actionCheckbutton3(self):
-        if self.var_livreur3.get() == 1:
-            self.livreur3.configure(bg='red')
-        else :
-            self.livreur3.configure(bg='white')
-            
-    def actionLivreur(self,slivreur):
+       
+    def actionLivreur(self,livreur):
 		print "je vais dans la methode action livreur"
-		for i in xrange(len(self.listeLivreur)):
-			print slivreur+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		for i in xrange(len(self.listeLivreurVar)):
+			#print livreur.nom, self.listeLivreurVar[i]
 			#if self.listeLivreur[i]==slivreur:
 				#self.listeLivreur[i].configure(bg="red")
-			if slivreur=="Livreur 2":
-				self.livreur4.configure(bg="red")
+				
+			if self.listeLivreurVar[i].get()==livreur.nom and livreur.occupe==True:
+				self.listeLivreur[i].configure(bg="red")
+			if self.listeLivreurVar[i].get()==livreur.nom and livreur.occupe==False :
+				 self.listeLivreur[i].configure(bg="green")		
 		self.fen.update_idletasks()
 		self.fen.update()
-            
+
+	
+	
+
+		     
 """
+#comment faire un checkbox
+self.var_livreur1= IntVar()
+self.var_livreur1.set(0)
+self.livreur1 = Checkbutton(self.fen,bg='white', text="Livreur 1",command =self.actionCheckbutton1, variable=self.var_livreur1, height=4)
+
     def actionCheckbutton4(self):
         if self.var_livreur4.get() == 1:
             self.livreur4.configure(bg='red')
@@ -162,6 +169,7 @@ class fenetre:
 
 
 
+#pour tester la fenetre seule
 
 #f= fenetre()
 #f.fen.update_idletasks()
